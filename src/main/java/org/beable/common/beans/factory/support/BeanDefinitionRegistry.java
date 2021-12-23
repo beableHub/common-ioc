@@ -11,4 +11,6 @@ import org.beable.common.beans.factory.config.BeanDefinition;
 public interface BeanDefinitionRegistry {
 
     void registerBeanDefinition(String beanName, BeanDefinition beanDefinition);
+
+    boolean containsBeanDefinition(String beanName);
 }

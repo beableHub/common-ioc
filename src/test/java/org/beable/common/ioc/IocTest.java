@@ -4,7 +4,9 @@ import org.beable.common.beans.PropertyValue;
 import org.beable.common.beans.PropertyValues;
 import org.beable.common.beans.factory.config.BeanDefinition;
 import org.beable.common.beans.factory.config.BeanReference;
+import org.beable.common.beans.factory.support.BeanDefinitionReader;
 import org.beable.common.beans.factory.support.DefaultListableBeanFactory;
+import org.beable.common.beans.factory.xml.XmlBeanDefinitionReader;
 import org.junit.Test;
 
 /**
@@ -71,5 +73,26 @@ public class IocTest {
         // 第二次获取bean
         UserService singletonUserService = (UserService) beanFactory.getBean("userService");
         singletonUserService.queryUserInfo("10002");
+    }
+
+
+    @Test
+    public void test_xml(){
+        // 初始化beanFactory
+        DefaultListableBeanFactory beanFactory = new DefaultListableBeanFactory();
+
+        // 读取配置文件
+        BeanDefinitionReader beanDefinitionReader = new XmlBeanDefinitionReader(beanFactory);
+        beanDefinitionReader.loadBeanDefinitions("classpath:application-context.xml");
+
+        // 获取bean
+        // 第一次获取bean
+        UserService userService = (UserService) beanFactory.getBean("userService");
+        userService.queryUserInfo("10001");
+
+        // 第二次获取bean
+        UserService singletonUserService = (UserService) beanFactory.getBean("userService");
+        singletonUserService.queryUserInfo("10002");
+
     }
 }

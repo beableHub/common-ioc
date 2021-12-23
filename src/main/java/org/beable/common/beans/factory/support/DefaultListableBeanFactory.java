@@ -31,6 +31,11 @@ public class DefaultListableBeanFactory extends AbstractAutowireCapableBeanFacto
     }
 
     @Override
+    public boolean containsBeanDefinition(String beanName) {
+        return beanDefinitionMap.containsKey(beanName);
+    }
+
+    @Override
     public Object getBean(String name, Object... args) throws BeanException {
         Object bean = getSingleton(name);
         if (bean != null){

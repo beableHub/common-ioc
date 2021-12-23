@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<beans>
+    <bean id="userDao" class="org.beable.common.ioc.UserDao"/>
+    <bean id="userService" class="org.beable.common.ioc.UserService">
+        <property name="userDao" ref="userDao"/>
+    </bean>
+</beans>
