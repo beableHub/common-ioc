@@ -8,20 +8,9 @@ package org.beable.common.ioc;
  */
 public class UserService {
 
-    private String name;
+    private UserDao userDao;
 
-    private Integer age;
-
-    public UserService(String name){
-        this.name = name;
-    }
-
-
-    public UserService(Integer age){
-        this.age = age;
-    }
-
-    public void queryUserInfo(){
-        System.out.println("查询用户信息");
+    public void queryUserInfo(String userId){
+        System.out.println("查询用户信息:"+userDao.queryUserName(userId));
     }
 }
