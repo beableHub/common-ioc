@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <beans>
-    <bean id="userDao" class="org.beable.common.ioc.UserDao">
+    <bean id="userDao" class="org.beable.common.ioc.UserDao"  init-method="initDataMethod" destroy-method="destroyDataMethod">
         <property name="company" value="alibaba"/>
         <property name="location" value="shanghai"/>
     </bean>

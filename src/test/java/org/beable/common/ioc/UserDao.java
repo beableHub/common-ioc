@@ -10,12 +10,6 @@ public class UserDao {
 
     private String location;
 
-    static {
-        hashMap.put("10001", "A");
-        hashMap.put("10002", "B");
-        hashMap.put("10003", "C");
-    }
-
     public String queryUserName(String uId) {
         return hashMap.get(uId);
     }
@@ -34,5 +28,17 @@ public class UserDao {
 
     public void setLocation(String location) {
         this.location = location;
+    }
+
+    public void initDataMethod(){
+        System.out.println("执行：init-method");
+        hashMap.put("10001", "A");
+        hashMap.put("10002", "B");
+        hashMap.put("10003", "C");
+    }
+
+    public void destroyDataMethod(){
+        System.out.println("执行：destroy-method");
+        hashMap.clear();
     }
 }
