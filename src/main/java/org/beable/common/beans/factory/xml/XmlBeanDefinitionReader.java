@@ -1,7 +1,7 @@
 package org.beable.common.beans.factory.xml;
 
 
-import org.beable.common.beans.BeanException;
+import org.beable.common.beans.BeansException;
 import org.beable.common.beans.PropertyValue;
 import org.beable.common.beans.factory.config.BeanDefinition;
 import org.beable.common.beans.factory.config.BeanReference;
@@ -9,7 +9,7 @@ import org.beable.common.beans.factory.support.AbstractBeanDefinitionReader;
 import org.beable.common.beans.factory.support.BeanDefinitionRegistry;
 import org.beable.common.core.io.Resource;
 import org.beable.common.core.io.ResourceLoader;
-import org.beable.common.util.StringUtils;
+import org.beable.common.utils.StringUtils;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
@@ -34,25 +34,18 @@ public class XmlBeanDefinitionReader extends AbstractBeanDefinitionReader {
 
 
     @Override
-    public void loadBeanDefinitions(Resource resource) throws BeanException {
+    public void loadBeanDefinitions(Resource resource) throws BeansException {
         try {
             try(InputStream inputStream = resource.getInputStream()){
                 doLoadBeanDefinitions(inputStream);
             }
         }catch(Exception e){
-            throw new BeanException("IOException parsing XML document from " + resource,e);
+            throw new BeansException("IOException parsing XML document from " + resource,e);
         }
     }
 
     @Override
-    public void loadBeanDefinitions(Resource... resources) throws BeanException {
-        for (Resource resource : resources){
-            loadBeanDefinitions(resource);
-        }
-    }
-
-    @Override
-    public void loadBeanDefinitions(String location) throws BeanException {
+    public void loadBeanDefinitions(String location) throws BeansException {
         ResourceLoader resourceLoader = getResourceLoader();
         Resource resource = resourceLoader.getResource(location);
         loadBeanDefinitions(resource);
@@ -83,7 +76,7 @@ public class XmlBeanDefinitionReader extends AbstractBeanDefinitionReader {
             String name = bean.getAttribute("name");
             String className = bean.getAttribute("class");
             // 获取Class
-            Class clazz = Class.forName(className);
+            Class<?> clazz = Class.forName(className);
             String beanName = StringUtils.isNotEmpty(id) ? id : name;
             if (StringUtils.isEmpty(beanName)){
                 beanName = clazz.getSimpleName();
@@ -110,7 +103,7 @@ public class XmlBeanDefinitionReader extends AbstractBeanDefinitionReader {
                 beanDefinition.getPropertyValues().addPropertyValue(propertyValue);
             }
             if (getRegistry().containsBeanDefinition(beanName)){
-                throw new BeanException("Duplicate beanName[" + beanName + "] is not allowed");
+                throw new BeansException("Duplicate beanName[" + beanName + "] is not allowed");
             }
             getRegistry().registerBeanDefinition(beanName,beanDefinition);
         }

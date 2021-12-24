@@ -1,6 +1,6 @@
 package org.beable.common.beans.factory;
 
-import org.beable.common.beans.BeanException;
+import org.beable.common.beans.BeansException;
 
 /**
  *
@@ -10,7 +10,7 @@ import org.beable.common.beans.BeanException;
  */
 public interface BeanFactory {
 
-    Object getBean(String name) throws BeanException;
+    Object getBean(String name) throws BeansException;
 
-    Object getBean(String name,Object... args) throws BeanException;
+    Object getBean(String name,Object... args) throws BeansException;
 }

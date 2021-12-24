@@ -1,6 +1,8 @@
 package org.beable.common.beans.factory.support;
 
+import org.beable.common.beans.BeansException;
 import org.beable.common.core.io.DefaultResourceLoader;
+import org.beable.common.core.io.Resource;
 import org.beable.common.core.io.ResourceLoader;
 
 /**
@@ -17,7 +19,7 @@ public abstract class AbstractBeanDefinitionReader implements BeanDefinitionRead
     }
 
 
-    public AbstractBeanDefinitionReader(BeanDefinitionRegistry registry, ResourceLoader resourceLoader){
+    protected AbstractBeanDefinitionReader(BeanDefinitionRegistry registry, ResourceLoader resourceLoader){
         this.registry = registry;
         this.resourceLoader = resourceLoader;
     }
@@ -31,5 +33,20 @@ public abstract class AbstractBeanDefinitionReader implements BeanDefinitionRead
     @Override
     public ResourceLoader getResourceLoader() {
         return resourceLoader;
+    }
+
+
+    @Override
+    public void loadBeanDefinitions(Resource... resources) throws BeansException {
+        for (Resource resource : resources){
+            loadBeanDefinitions(resource);
+        }
+    }
+
+    @Override
+    public void loadBeanDefinitions(String... locations) throws BeansException {
+        for (String location : locations){
+            loadBeanDefinitions(location);
+        }
     }
 }

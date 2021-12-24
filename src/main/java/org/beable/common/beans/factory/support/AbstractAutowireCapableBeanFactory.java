@@ -1,12 +1,12 @@
 package org.beable.common.beans.factory.support;
 
-import org.beable.common.beans.BeanException;
+import org.beable.common.beans.BeansException;
 import org.beable.common.beans.BeanUtils;
 import org.beable.common.beans.PropertyValue;
 import org.beable.common.beans.PropertyValues;
 import org.beable.common.beans.factory.config.BeanDefinition;
+import org.beable.common.beans.factory.config.BeanPostProcessor;
 import org.beable.common.beans.factory.config.BeanReference;
-import sun.reflect.misc.ReflectUtil;
 
 import java.lang.reflect.Constructor;
 import java.util.Objects;
@@ -16,19 +16,21 @@ import java.util.Objects;
  * @version 1.0
  * @date 2021/12/22
  */
-public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFactory {
+public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFactory implements AutowireCapableBeanFactory{
 
     private final InstantiationStrategy instantiationStrategy = new SimpleInstantiationStrategy();
 
     @Override
-    protected Object createBean(String beanName, BeanDefinition beanDefinition,Object[] args) throws BeanException {
+    protected Object createBean(String beanName, BeanDefinition beanDefinition,Object[] args) throws BeansException {
         Object bean = null;
         try {
             bean = createBeanInstance(beanDefinition,beanName,args);
             // 填充属性
             applyPropertyValues(beanName,bean,beanDefinition);
+            //
+            bean = initializeBean(bean,beanName,beanDefinition);
         } catch (Exception e) {
-            throw new BeanException("Instantiation of bean failed", e);
+            throw new BeansException("Instantiation of bean failed", e);
         }
         addSingleton(beanName,bean);
         return bean;
@@ -78,4 +80,47 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
     protected InstantiationStrategy getInstantiationStrategy(){
         return this.instantiationStrategy;
     }
+
+
+    private Object initializeBean(Object bean, String beanName,BeanDefinition beanDefinition) throws BeansException {
+        // 执行BeanPostProcessor的before处理
+        Object wrappedBean = applyBeanPostProcessorsBeforeInitialization(bean,beanName);
+
+        // 执行初始化方法
+        invokeInitMethods(beanName,wrappedBean,beanDefinition);
+
+        // 执行BeanPostProcessor的after处理
+        wrappedBean = applyBeanPostProcessorsAfterInitialization(bean,beanName);
+
+        return wrappedBean;
+    }
+
+    private void invokeInitMethods(String beanName, Object wrappedBean, BeanDefinition beanDefinition) {
+
+    }
+
+    @Override
+    public Object applyBeanPostProcessorsBeforeInitialization(Object existingBean, String beanName) throws BeansException{
+        Object result = existingBean;
+        for (BeanPostProcessor processor : getBeanPostProcessors()){
+            Object current = processor.postProcessBeforeInitialization(result,beanName);
+            if (current != null){
+                result = current;
+            }
+        }
+        return result;
+    }
+
+    @Override
+    public Object applyBeanPostProcessorsAfterInitialization(Object existingBean, String beanName) throws BeansException {
+        Object result = existingBean;
+        for (BeanPostProcessor processor : getBeanPostProcessors()){
+            Object current = processor.postProcessAfterInitialization(result,beanName);
+            if (current != null){
+                result = current;
+            }
+        }
+        return result;
+    }
+
 }

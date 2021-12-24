@@ -1,6 +1,6 @@
 package org.beable.common.beans.factory.support;
 
-import org.beable.common.beans.BeanException;
+import org.beable.common.beans.BeansException;
 import org.beable.common.beans.factory.config.BeanDefinition;
 
 import java.lang.reflect.Constructor;
@@ -13,7 +13,7 @@ import java.lang.reflect.Constructor;
  */
 public class CglibSubclassingInstantiationStrategy implements InstantiationStrategy{
     @Override
-    public Object instantiate(BeanDefinition beanDefinition, String beanName, Constructor constructor, Object[] args) throws BeanException {
+    public Object instantiate(BeanDefinition beanDefinition, String beanName, Constructor constructor, Object[] args) throws BeansException {
         // TODO
         return null;
     }

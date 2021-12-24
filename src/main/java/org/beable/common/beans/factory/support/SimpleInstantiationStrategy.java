@@ -1,6 +1,6 @@
 package org.beable.common.beans.factory.support;
 
-import org.beable.common.beans.BeanException;
+import org.beable.common.beans.BeansException;
 import org.beable.common.beans.factory.config.BeanDefinition;
 
 import java.lang.reflect.Constructor;
@@ -15,7 +15,7 @@ public class SimpleInstantiationStrategy implements InstantiationStrategy {
 
 
     @Override
-    public Object instantiate(BeanDefinition beanDefinition, String beanName, Constructor constructor, Object[] args) throws BeanException {
+    public Object instantiate(BeanDefinition beanDefinition, String beanName, Constructor constructor, Object[] args) throws BeansException {
         Class clazz = beanDefinition.getBeanClass();
         try {
             if (constructor != null) {
@@ -24,7 +24,7 @@ public class SimpleInstantiationStrategy implements InstantiationStrategy {
                 return clazz.getDeclaredConstructor().newInstance();
             }
         } catch (InstantiationException | IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {
-            throw new BeanException("Failed to instantiate [" + clazz.getName() + "]", e);
+            throw new BeansException("Failed to instantiate [" + clazz.getName() + "]", e);
         }
     }
 }

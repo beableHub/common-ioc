@@ -1,6 +1,6 @@
 package org.beable.common.beans.factory.support;
 
-import org.beable.common.beans.BeanException;
+import org.beable.common.beans.BeansException;
 import org.beable.common.beans.factory.config.BeanDefinition;
 
 import java.lang.reflect.Constructor;
@@ -13,5 +13,5 @@ import java.lang.reflect.Constructor;
  */
 public interface InstantiationStrategy {
 
-    Object instantiate(BeanDefinition beanDefinition, String beanName, Constructor constructor,Object[] args) throws BeanException;
+    Object instantiate(BeanDefinition beanDefinition, String beanName, Constructor constructor,Object[] args) throws BeansException;
 }

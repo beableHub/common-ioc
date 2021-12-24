@@ -1,9 +1,11 @@
-package org.beable.common.core.io;
+package org.beable.common.utils;
 
 /**
  * @author qing.wu
  */
 public class ClassUtils {
+
+    private ClassUtils(){}
 
     public static ClassLoader getDefaultClassLoader(){
         ClassLoader cl = null;
