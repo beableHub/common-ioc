@@ -1,7 +1,13 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <beans>
-    <bean id="userDao" class="org.beable.common.ioc.UserDao"/>
+    <bean id="userDao" class="org.beable.common.ioc.UserDao">
+        <property name="company" value="alibaba"/>
+        <property name="location" value="shanghai"/>
+    </bean>
     <bean id="userService" class="org.beable.common.ioc.UserService">
         <property name="userDao" ref="userDao"/>
     </bean>
+
+    <bean class="org.beable.common.ioc.config.MyBeanFactoryPostProcessor"/>
+    <bean class="org.beable.common.ioc.config.MyBeanPostProcessor"/>
 </beans>

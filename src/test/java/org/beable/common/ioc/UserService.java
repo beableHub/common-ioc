@@ -13,4 +13,12 @@ public class UserService {
     public void queryUserInfo(String userId){
         System.out.println("查询用户信息:"+userDao.queryUserName(userId));
     }
+
+    public void queryCompany(String userId){
+        System.out.println("查询用户公司信息:"+userDao.queryCompany());
+    }
+
+    public void queryLocation(String userId){
+        System.out.println("查询用户所在城市信息:"+userDao.queryLocation());
+    }
 }
