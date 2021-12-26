@@ -2,7 +2,6 @@ package org.beable.common.beans.factory.support;
 
 import org.beable.common.beans.BeansException;
 import org.beable.common.beans.factory.config.BeanDefinition;
-import org.beable.common.beans.factory.config.BeanPostProcessor;
 import org.beable.common.beans.factory.config.ConfigurableListableBeanFactory;
 
 import java.util.*;

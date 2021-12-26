@@ -4,12 +4,13 @@ import org.beable.common.beans.BeansException;
 import org.beable.common.beans.BeanUtils;
 import org.beable.common.beans.PropertyValue;
 import org.beable.common.beans.PropertyValues;
-import org.beable.common.beans.factory.DisposableBean;
-import org.beable.common.beans.factory.InitializingBean;
+import org.beable.common.beans.factory.*;
 import org.beable.common.beans.factory.config.BeanDefinition;
 import org.beable.common.beans.factory.config.BeanPostProcessor;
 import org.beable.common.beans.factory.config.BeanReference;
+import org.beable.common.utils.ClassUtils;
 import org.beable.common.utils.StringUtils;
+import sun.plugin.com.BeanClass;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Method;
@@ -31,7 +32,7 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
             bean = createBeanInstance(beanDefinition,beanName,args);
             // 填充属性
             applyPropertyValues(beanName,bean,beanDefinition);
-            //
+            // 执行Bean的初始化方法和BeanPostProcessor的前置和后置处理方法
             bean = initializeBean(bean,beanName,beanDefinition);
         } catch (Exception e) {
             throw new BeansException("Instantiation of bean failed", e);
@@ -96,6 +97,20 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
 
 
     private Object initializeBean(Object bean, String beanName,BeanDefinition beanDefinition) throws BeansException {
+
+        // invokeAwareMethods
+        if (bean instanceof Aware){
+            if (bean instanceof BeanFactoryAware){
+                ((BeanFactoryAware)bean).setBeanFactory(this);
+            }
+            if (bean instanceof BeanClassLoaderAware){
+                ((BeanClassLoaderAware)bean).setBeanClassLoader(getBeanClassLoader());
+            }
+            if (bean instanceof BeanNameAware){
+                ((BeanNameAware)bean).setBeanName(beanName);
+            }
+        }
+
         // 执行BeanPostProcessor的before处理
         Object wrappedBean = applyBeanPostProcessorsBeforeInitialization(bean,beanName);
         // 执行初始化方法
@@ -108,6 +123,10 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
         // 执行BeanPostProcessor的after处理
         wrappedBean = applyBeanPostProcessorsAfterInitialization(bean,beanName);
         return wrappedBean;
+    }
+
+    private ClassLoader getBeanClassLoader() {
+        return ClassUtils.getDefaultClassLoader();
     }
 
     private void invokeInitMethods(String beanName, Object bean, BeanDefinition beanDefinition) throws Exception {

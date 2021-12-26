@@ -10,4 +10,6 @@
 
     <bean class="org.beable.common.ioc.config.MyBeanFactoryPostProcessor"/>
     <bean class="org.beable.common.ioc.config.MyBeanPostProcessor"/>
+
+    <bean class="org.beable.common.ioc.config.UserServiceAware"/>
 </beans>

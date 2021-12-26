@@ -144,4 +144,19 @@ public class IocTest {
         singletonUserService.queryLocation("10002");
 
     }
+
+    @Test
+    public void test_aware(){
+        ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext("classpath:application-context.xml");
+        context.registerShutdownHook();
+        // 获取bean
+        // 第一次获取bean
+        UserService userService = (UserService) context.getBean("userService");
+        userService.queryCompany("10001");
+
+        // 第二次获取bean
+        UserService singletonUserService = (UserService) context.getBean("userService");
+        singletonUserService.queryLocation("10002");
+
+    }
 }
