@@ -33,6 +33,6 @@ public class UserServiceAware implements BeanNameAware, BeanClassLoaderAware, Ap
 
     @Override
     public void setApplicaitonContext(ApplicationContext applicaitonContext) throws BeansException {
-        System.out.println("ApplicationContext is" + applicaitonContext);
+        System.out.println("ApplicationContext is " + applicaitonContext);
     }
 }

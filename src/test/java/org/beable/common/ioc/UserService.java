@@ -11,7 +11,7 @@ import org.beable.common.beans.factory.InitializingBean;
  */
 public class UserService implements InitializingBean, DisposableBean {
 
-    private UserDao userDao;
+    private IUserDao userDao;
 
     public void queryUserInfo(String userId){
         System.out.println("查询用户信息:"+userDao.queryUserName(userId));

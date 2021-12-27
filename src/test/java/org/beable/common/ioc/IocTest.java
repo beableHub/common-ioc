@@ -8,6 +8,7 @@ import org.beable.common.beans.factory.support.BeanDefinitionReader;
 import org.beable.common.beans.factory.support.DefaultListableBeanFactory;
 import org.beable.common.beans.factory.xml.XmlBeanDefinitionReader;
 import org.beable.common.context.support.ClassPathXmlApplicationContext;
+import org.beable.common.ioc.event.CustomEvent;
 import org.junit.Test;
 
 /**
@@ -158,5 +159,40 @@ public class IocTest {
         UserService singletonUserService = (UserService) context.getBean("userService");
         singletonUserService.queryLocation("10002");
 
+    }
+
+    @Test
+    public void test_prototype(){
+        // 1.初始化 BeanFactory
+        ClassPathXmlApplicationContext applicationContext = new ClassPathXmlApplicationContext("classpath:application-context.xml");
+        applicationContext.registerShutdownHook();
+
+        // 2. 获取Bean对象调用方法
+        UserService userService01 = (UserService) applicationContext.getBean("userService", UserService.class);
+        UserService userService02 = (UserService) applicationContext.getBean("userService", UserService.class);
+
+        // 3. 配置 scope="prototype/singleton"
+        System.out.println(userService01);
+        System.out.println(userService02);
+
+    }
+
+    @Test
+    public void test_factory_bean(){
+        // 1.初始化 BeanFactory
+        ClassPathXmlApplicationContext applicationContext = new ClassPathXmlApplicationContext("classpath:application-context.xml");
+        applicationContext.registerShutdownHook();
+        // 2. 调用代理方法
+        UserService userService = (UserService) applicationContext.getBean("userService", UserService.class);
+        userService.queryUserInfo("10001");
+    }
+
+
+    @Test
+    public void test_event(){
+        ClassPathXmlApplicationContext applicationContext = new ClassPathXmlApplicationContext("classpath:application-context.xml");
+        applicationContext.publishEvent(new CustomEvent(applicationContext, 1019129009086763L, "成功了！"));
+
+        applicationContext.registerShutdownHook();
     }
 }
