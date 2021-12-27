@@ -39,8 +39,9 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
         }
 
         registerDisposableBeanIfNecessary(beanName,bean,beanDefinition);
-
-        addSingleton(beanName,bean);
+        if (beanDefinition.isSingleton()) {
+            addSingleton(beanName, bean);
+        }
         return bean;
     }
 
@@ -125,9 +126,6 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
         return wrappedBean;
     }
 
-    private ClassLoader getBeanClassLoader() {
-        return ClassUtils.getDefaultClassLoader();
-    }
 
     private void invokeInitMethods(String beanName, Object bean, BeanDefinition beanDefinition) throws Exception {
         // 实现接口InitializingBean

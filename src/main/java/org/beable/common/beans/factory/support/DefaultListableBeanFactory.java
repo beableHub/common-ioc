@@ -82,8 +82,10 @@ public class DefaultListableBeanFactory extends AbstractAutowireCapableBeanFacto
 
     private String[] doGetBeanNamesForType(Class<?> type){
         List<String> result = new ArrayList<>();
+
         for (String beanName: this.beanDefinitionNames){
-            if (type.getName().equals(beanName)){
+            BeanDefinition beanDefinition = getBeanDefinition(beanName);
+            if (type.isAssignableFrom(beanDefinition.getBeanClass())){
                 result.add(beanName);
             }
         }
@@ -93,6 +95,6 @@ public class DefaultListableBeanFactory extends AbstractAutowireCapableBeanFacto
 
     @Override
     public void preInstantiateSingletons() throws BeansException {
-
+        this.beanDefinitionMap.keySet().forEach(this::getBean);
     }
 }

@@ -1,6 +1,7 @@
 package org.beable.common.beans.factory.config;
 
 import org.beable.common.beans.PropertyValues;
+import org.beable.common.beans.factory.ConfigurableBeanFactory;
 
 /**
  * @author wuqing
@@ -9,6 +10,12 @@ import org.beable.common.beans.PropertyValues;
  */
 public class BeanDefinition {
 
+    public static final String SCOPE_DEFAULT = "";
+
+    String SCOPE_SINGLETON = ConfigurableBeanFactory.SCOPE_SINGLETON;
+
+    String SCOPE_PROTOTYPE = ConfigurableBeanFactory.SCOPE_PROTOTYPE;
+
     private Class beanClass;
 
     private PropertyValues propertyValues;
@@ -16,6 +23,9 @@ public class BeanDefinition {
     private String initMethodName;
 
     private String destroyMethodName;
+
+    private String scope = SCOPE_SINGLETON;
+
 
     public BeanDefinition(Class beanClass){
         this.beanClass = beanClass;
@@ -50,5 +60,21 @@ public class BeanDefinition {
 
     public String getDestroyMethodName() {
         return destroyMethodName;
+    }
+
+    public void setScope(String scope) {
+        this.scope = scope;
+    }
+
+    public String getScope() {
+        return scope;
+    }
+
+    public boolean isSingleton(){
+        return SCOPE_SINGLETON.equals(this.scope) || SCOPE_DEFAULT.equals(this.scope);
+    }
+
+    public boolean isPrototype(){
+        return SCOPE_PROTOTYPE.equals(this.scope);
     }
 }
