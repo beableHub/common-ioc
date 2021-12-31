@@ -24,13 +24,27 @@ public abstract class AbstractBeanFactory extends FactoryBeanRegistrySupport imp
 
     @Override
     public Object getBean(String name) throws BeansException {
+        return doGetBean(name,null);
+    }
+
+    @Override
+    public Object getBean(String name, Object... args) throws BeansException {
+        return doGetBean(name,args);
+    }
+
+    @Override
+    public <T> T getBean(String name, Class<T> requiredType) throws BeansException {
+        return (T) getBean(name);
+    }
+
+    protected <T> T doGetBean(final String name,final Object[] args){
         Object sharedBeanInstance = getSingleton(name);
         if (sharedBeanInstance != null){
-            return getObjectForBeanInstance(sharedBeanInstance,name);
+            return (T) getObjectForBeanInstance(sharedBeanInstance,name);
         }
         BeanDefinition beanDefinition = getBeanDefinition(name);
-        Object beanInstance = createBean(name, beanDefinition, null);
-        return getObjectForBeanInstance(beanInstance,name);
+        Object beanInstance = createBean(name, beanDefinition, args);
+        return (T) getObjectForBeanInstance(beanInstance,name);
     }
 
     protected Object getObjectForBeanInstance(Object beanInstance, String beanName) {

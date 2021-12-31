@@ -1,21 +1,34 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <beans>
-<!--    <bean id="userDao" class="org.beable.common.ioc.IUserDao"  init-method="initDataMethod" destroy-method="destroyDataMethod">-->
-<!--        <property name="company" value="alibaba"/>-->
-<!--        <property name="location" value="shanghai"/>-->
-<!--    </bean>-->
-    <bean id="userService" class="org.beable.common.ioc.UserService" scope="prototype">
-        <property name="userDao" ref="userDao"/>
+    <bean id="userDao" class="org.beable.common.ioc.UserDao"  init-method="initDataMethod" destroy-method="destroyDataMethod">
+        <property name="company" value="alibaba"/>
+        <property name="location" value="shanghai"/>
     </bean>
+<!--    <bean id="userService" class="org.beable.common.ioc.UserService" scope="prototype">-->
+<!--        <property name="userDao" ref="userDao"/>-->
+<!--    </bean>-->
 
 <!--    <bean class="org.beable.common.ioc.config.MyBeanFactoryPostProcessor"/>-->
 <!--    <bean class="org.beable.common.ioc.config.MyBeanPostProcessor"/>-->
 
-    <bean class="org.beable.common.ioc.config.UserServiceAware"/>
+<!--    <bean class="org.beable.common.ioc.config.UserServiceAware"/>-->
 
-    <bean id="userDao" class="org.beable.common.ioc.bean.ProxyBeanFactory"/>
+<!--    <bean id="userDao" class="org.beable.common.ioc.bean.ProxyBeanFactory"/>-->
 
-    <bean class="org.beable.common.ioc.event.CustomEventListener"/>
-    <bean class="org.beable.common.ioc.event.ContextRefreshedEventListener"/>
-    <bean class="org.beable.common.ioc.event.ContextClosedEventListener"/>
+<!--    <bean class="org.beable.common.ioc.event.CustomEventListener"/>-->
+<!--    <bean class="org.beable.common.ioc.event.ContextRefreshedEventListener"/>-->
+<!--    <bean class="org.beable.common.ioc.event.ContextClosedEventListener"/>-->
+
+    <bean class="org.beable.common.aop.framework.autoproxy.DefaultAdvisorAutoProxyCreator"/>
+
+    <bean id="userDaoBeforeAdvice" class="org.beable.common.ioc.advice.UserDaoBeforeAdvice"/>
+
+    <bean id="methodBeforeAdviceInterceptor" class="org.beable.common.aop.framework.adapter.MethodBeforeAdviceInterceptor">
+        <property name="advice" ref="userDaoBeforeAdvice"/>
+    </bean>
+
+    <bean class="org.beable.common.aop.aspectj.AspectJExpressionPointcutAdvisor">
+        <property name="expression" value="execution(* org.beable.common.ioc.IUserDao.*(..))"/>
+        <property name="advice" ref="methodBeforeAdviceInterceptor"/>
+    </bean>
 </beans>

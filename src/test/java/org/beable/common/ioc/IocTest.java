@@ -218,4 +218,13 @@ public class IocTest {
         System.out.println("查询用户所在城市信息:"+proxy.queryLocation());
         System.out.println("查询用户公司信息:"+proxy.queryCompany());
     }
+
+    @Test
+    public void test_aop(){
+        ClassPathXmlApplicationContext applicationContext = new ClassPathXmlApplicationContext("classpath:application-context.xml");
+
+        IUserDao proxy =  applicationContext.getBean("userDao",IUserDao.class);
+        System.out.println("查询用户所在城市信息:"+proxy.queryLocation());
+        System.out.println("查询用户公司信息:"+proxy.queryCompany());
+    }
 }
