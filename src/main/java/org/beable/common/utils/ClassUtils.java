@@ -1,5 +1,6 @@
 package org.beable.common.utils;
 
+import cn.hutool.core.util.ClassUtil;
 import org.beable.common.stereotype.Component;
 
 import java.util.Set;
@@ -35,8 +36,6 @@ public class ClassUtils {
     }
 
     public static Set<Class<?>> scanPackageByAnnotation(String basePackage, Class<Component> componentClass) {
-
-
-        return null;
+        return ClassUtil.scanPackageByAnnotation(basePackage,componentClass);
     }
 }

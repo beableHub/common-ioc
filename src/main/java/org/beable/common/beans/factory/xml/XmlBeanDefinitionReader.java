@@ -7,16 +7,20 @@ import org.beable.common.beans.factory.config.BeanDefinition;
 import org.beable.common.beans.factory.config.BeanReference;
 import org.beable.common.beans.factory.support.AbstractBeanDefinitionReader;
 import org.beable.common.beans.factory.support.BeanDefinitionRegistry;
+import org.beable.common.context.annotation.ClassPathBeanDefinitionScanner;
 import org.beable.common.core.io.Resource;
 import org.beable.common.core.io.ResourceLoader;
 import org.beable.common.utils.StringUtils;
+import org.dom4j.io.SAXReader;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
+import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.parsers.SAXParser;
 import java.io.InputStream;
 
 /**
@@ -61,11 +65,25 @@ public class XmlBeanDefinitionReader extends AbstractBeanDefinitionReader {
     // need to be refactor TODO
     protected void doRegisterBeanDefinitions(Element root) throws ClassNotFoundException {
         NodeList childNodes = root.getChildNodes();
-        for (int i = 0; i < childNodes.getLength(); i++){
+
+        NodeList componentScan = root.getElementsByTagName("context:component-scan");
+        for (int i = 0; i < componentScan.getLength(); i++){
+            Node childNode = componentScan.item(i);
             // 判断元素
-            if (!(childNodes.item(i) instanceof Element)){
+            if (!(childNode instanceof Element)){
                 continue;
             }
+            String basePackage = ((Element) childNode).getAttribute("base-package");
+            scanPackage(basePackage);
+        }
+
+        for (int i = 0; i < childNodes.getLength(); i++){
+            Node childNode = childNodes.item(i);
+            // 判断元素
+            if (!(childNode instanceof Element)){
+                continue;
+            }
+
             // 判断对象
             if (!"bean".equals(childNodes.item(i).getNodeName())){
                 continue;
@@ -80,7 +98,7 @@ public class XmlBeanDefinitionReader extends AbstractBeanDefinitionReader {
             Class<?> clazz = Class.forName(className);
             String beanName = StringUtils.isNotEmpty(id) ? id : name;
             if (StringUtils.isEmpty(beanName)){
-                beanName = clazz.getName();
+                beanName = StringUtils.lowerFirstChar(clazz.getSimpleName());
             }
 
             // 定义BeanDefinition
@@ -147,5 +165,11 @@ public class XmlBeanDefinitionReader extends AbstractBeanDefinitionReader {
         factory.setNamespaceAware(false);
         factory.setValidating(false);
         return factory;
+    }
+
+    private void scanPackage(String basePackage){
+        String[] basePackages = new String[]{basePackage};
+        ClassPathBeanDefinitionScanner scanner = new ClassPathBeanDefinitionScanner(getRegistry());
+        scanner.doScan(basePackages);
     }
 }

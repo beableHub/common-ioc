@@ -2,6 +2,7 @@ package org.beable.common.ioc;
 
 import org.beable.common.beans.factory.DisposableBean;
 import org.beable.common.beans.factory.InitializingBean;
+import org.beable.common.stereotype.Component;
 
 /**
  *
@@ -12,6 +13,16 @@ import org.beable.common.beans.factory.InitializingBean;
 public class UserService implements InitializingBean, DisposableBean {
 
     private IUserDao userDao;
+
+    private String host;
+
+    public void setHost(String host) {
+        this.host = host;
+    }
+
+    public String getHost() {
+        return host;
+    }
 
     public void queryUserInfo(String userId){
         System.out.println("查询用户信息:"+userDao.queryUserName(userId));

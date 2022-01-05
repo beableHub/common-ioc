@@ -227,4 +227,14 @@ public class IocTest {
         System.out.println("查询用户所在城市信息:"+proxy.queryLocation());
         System.out.println("查询用户公司信息:"+proxy.queryCompany());
     }
+
+    @Test
+    public void test_component(){
+        ClassPathXmlApplicationContext applicationContext = new ClassPathXmlApplicationContext("classpath:application-context.xml");
+
+        UserService userService = applicationContext.getBean("userService",UserService.class);
+        System.out.println("host:"+userService.getHost());
+        userService.queryLocation("test");
+        userService.queryCompany("test");
+    }
 }

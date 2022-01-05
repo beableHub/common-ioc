@@ -1,10 +1,14 @@
 package org.beable.common.ioc;
 
+import org.beable.common.stereotype.Component;
+
 import java.util.HashMap;
 import java.util.Map;
 
+@Component
 public class UserDao implements IUserDao{
     private static Map<String, String> hashMap = new HashMap<>();
+
 
     private String company;
 
