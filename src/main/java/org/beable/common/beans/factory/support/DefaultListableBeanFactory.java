@@ -69,6 +69,11 @@ public class DefaultListableBeanFactory extends AbstractAutowireCapableBeanFacto
         return result;
     }
 
+    @Override
+    public String[] getBeanDefinitionNames() {
+        return beanDefinitionMap.keySet().toArray(new String[0]);
+    }
+
     private String[] getBeanNamesForType(Class<?> type){
         Map<Class<?>,String[]> cache = this.allBeanNamesByType;
         String[] resolvedBeanNames = cache.get(type);

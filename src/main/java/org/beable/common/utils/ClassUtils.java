@@ -1,5 +1,9 @@
 package org.beable.common.utils;
 
+import org.beable.common.stereotype.Component;
+
+import java.util.Set;
+
 /**
  * @author qing.wu
  */
@@ -28,5 +32,11 @@ public class ClassUtils {
             cl = ClassLoader.getSystemClassLoader();
         }catch (Throwable e){}
         return cl;
+    }
+
+    public static Set<Class<?>> scanPackageByAnnotation(String basePackage, Class<Component> componentClass) {
+
+
+        return null;
     }
 }
