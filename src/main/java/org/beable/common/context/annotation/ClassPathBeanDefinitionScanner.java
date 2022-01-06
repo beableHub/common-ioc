@@ -1,9 +1,10 @@
 package org.beable.common.context.annotation;
 
+import org.beable.common.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor;
 import org.beable.common.beans.factory.config.BeanDefinition;
 import org.beable.common.beans.factory.support.BeanDefinitionRegistry;
 import org.beable.common.stereotype.Component;
-import org.beable.common.utils.StringUtils;
+import org.beable.common.util.StringUtils;
 
 import java.util.Set;
 
@@ -16,6 +17,13 @@ import java.util.Set;
 public class ClassPathBeanDefinitionScanner extends ClassPathScanningCandidateComponentProvider{
 
     private BeanDefinitionRegistry registry;
+
+    /**
+     * The bean name of the internally managed Autowired annotation processor.
+     */
+    public static final String AUTOWIRED_ANNOTATION_PROCESSOR_BEAN_NAME =
+            "org.beable.common.beans.factory.annotation.internalAutowiredAnnotationProcessor";
+
 
     public ClassPathBeanDefinitionScanner(BeanDefinitionRegistry registry){
         this.registry = registry;
@@ -33,6 +41,9 @@ public class ClassPathBeanDefinitionScanner extends ClassPathScanningCandidateCo
                 registry.registerBeanDefinition(determineBeanName(beanDefinition),beanDefinition);
             }
         }
+        // 注册处理注解的 BeanPostProcessor（@Autowired、@Value）
+        registry.registerBeanDefinition(AUTOWIRED_ANNOTATION_PROCESSOR_BEAN_NAME, new BeanDefinition(AutowiredAnnotationBeanPostProcessor.class));
+
     }
 
     private String determineBeanName(BeanDefinition beanDefinition) {

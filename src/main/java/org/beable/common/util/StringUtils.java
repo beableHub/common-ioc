@@ -1,4 +1,4 @@
-package org.beable.common.utils;
+package org.beable.common.util;
 
 /**
  * @author qing.wu

@@ -2,6 +2,7 @@ package org.beable.common.beans.factory;
 
 import org.beable.common.beans.factory.config.BeanPostProcessor;
 import org.beable.common.beans.factory.config.SingletonBeanRegistry;
+import org.beable.common.util.StringValueResolver;
 
 /**
  * @author qing.wu
@@ -25,4 +26,8 @@ public interface ConfigurableBeanFactory extends HierarchicalBeanFactory, Single
 
 
     void destroySingletons();
+
+    void addEmbeddedValueResolver(StringValueResolver valueResolver);
+
+    String resolveEmbeddedValue(String value);
 }

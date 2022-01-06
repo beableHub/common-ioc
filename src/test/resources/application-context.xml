@@ -11,9 +11,4 @@
     <bean class="org.beable.common.beans.factory.PropertyPlaceholderConfigurer">
         <property name="location" value="classpath:application.properties"/>
     </bean>
-
-    <bean id="userService" class="org.beable.common.ioc.UserService">
-        <property name="host" value="${host}"/>
-        <property name="userDao" ref="userDao"/>
-    </bean>
 </beans>

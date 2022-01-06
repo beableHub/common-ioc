@@ -2,6 +2,8 @@ package org.beable.common.ioc;
 
 import org.beable.common.beans.factory.DisposableBean;
 import org.beable.common.beans.factory.InitializingBean;
+import org.beable.common.beans.factory.annotation.Autowired;
+import org.beable.common.beans.factory.annotation.Value;
 import org.beable.common.stereotype.Component;
 
 /**
@@ -10,10 +12,13 @@ import org.beable.common.stereotype.Component;
  * @version 1.0
  * @date 2021/12/22
  */
+@Component
 public class UserService implements InitializingBean, DisposableBean {
 
+    @Autowired
     private IUserDao userDao;
 
+    @Value("${host}")
     private String host;
 
     public void setHost(String host) {

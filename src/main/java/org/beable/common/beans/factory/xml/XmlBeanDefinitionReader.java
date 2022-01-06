@@ -10,8 +10,7 @@ import org.beable.common.beans.factory.support.BeanDefinitionRegistry;
 import org.beable.common.context.annotation.ClassPathBeanDefinitionScanner;
 import org.beable.common.core.io.Resource;
 import org.beable.common.core.io.ResourceLoader;
-import org.beable.common.utils.StringUtils;
-import org.dom4j.io.SAXReader;
+import org.beable.common.util.StringUtils;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -20,7 +19,6 @@ import org.w3c.dom.NodeList;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
-import javax.xml.parsers.SAXParser;
 import java.io.InputStream;
 
 /**

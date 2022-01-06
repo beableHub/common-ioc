@@ -1,7 +1,7 @@
 package org.beable.common.core.io;
 
 import com.sun.istack.internal.NotNull;
-import org.beable.common.utils.ClassUtils;
+import org.beable.common.util.ClassUtils;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;

@@ -237,4 +237,14 @@ public class IocTest {
         userService.queryLocation("test");
         userService.queryCompany("test");
     }
+
+    @Test
+    public void test_scan() {
+        ClassPathXmlApplicationContext applicationContext = new ClassPathXmlApplicationContext("classpath:application-context.xml");
+        UserService userService = applicationContext.getBean("userService", UserService.class);
+        userService.queryLocation("test");
+        userService.queryCompany("test");
+        System.out.println("host：" + userService.getHost());
+    }
+
 }

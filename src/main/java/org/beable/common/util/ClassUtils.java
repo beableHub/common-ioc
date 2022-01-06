@@ -1,4 +1,4 @@
-package org.beable.common.utils;
+package org.beable.common.util;
 
 import cn.hutool.core.util.ClassUtil;
 import org.beable.common.stereotype.Component;
@@ -37,5 +37,21 @@ public class ClassUtils {
 
     public static Set<Class<?>> scanPackageByAnnotation(String basePackage, Class<Component> componentClass) {
         return ClassUtil.scanPackageByAnnotation(basePackage,componentClass);
+    }
+
+    /**
+     * Check whether the specified class is a CGLIB-generated class.
+     * @param clazz the class to check
+     */
+    public static boolean isCglibProxyClass(Class<?> clazz) {
+        return (clazz != null && isCglibProxyClassName(clazz.getName()));
+    }
+
+    /**
+     * Check whether the specified class name is a CGLIB-generated class.
+     * @param className the class name to check
+     */
+    public static boolean isCglibProxyClassName(String className) {
+        return (className != null && className.contains("$$"));
     }
 }

@@ -5,7 +5,8 @@ import org.beable.common.beans.factory.ConfigurableBeanFactory;
 import org.beable.common.beans.factory.FactoryBean;
 import org.beable.common.beans.factory.config.BeanDefinition;
 import org.beable.common.beans.factory.config.BeanPostProcessor;
-import org.beable.common.utils.ClassUtils;
+import org.beable.common.util.ClassUtils;
+import org.beable.common.util.StringValueResolver;
 
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
@@ -21,6 +22,9 @@ public abstract class AbstractBeanFactory extends FactoryBeanRegistrySupport imp
     private final List<BeanPostProcessor> beanPostProcessors = new CopyOnWriteArrayList<>();
 
     private ClassLoader beanClassLoader = ClassUtils.getDefaultClassLoader();
+
+    /** String resolvers to apply e.g. to annotation attribute values. */
+    private final List<StringValueResolver> embeddedValueResolvers = new CopyOnWriteArrayList<>();
 
     @Override
     public Object getBean(String name) throws BeansException {
@@ -82,5 +86,25 @@ public abstract class AbstractBeanFactory extends FactoryBeanRegistrySupport imp
     @Override
     public ClassLoader getBeanClassLoader() {
         return this.beanClassLoader;
+    }
+
+    @Override
+    public void addEmbeddedValueResolver(StringValueResolver valueResolver) {
+        this.embeddedValueResolvers.add(valueResolver);
+    }
+
+    @Override
+    public String resolveEmbeddedValue(String value) {
+        if (value == null){
+            return null;
+        }
+        String result = value;
+        for (StringValueResolver resolver: this.embeddedValueResolvers){
+            result = resolver.resolveStringValue(value);
+            if (result == null){
+                return null;
+            }
+        }
+        return result;
     }
 }

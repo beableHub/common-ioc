@@ -2,7 +2,7 @@ package org.beable.common.context.annotation;
 
 import org.beable.common.beans.factory.config.BeanDefinition;
 import org.beable.common.stereotype.Component;
-import org.beable.common.utils.ClassUtils;
+import org.beable.common.util.ClassUtils;
 
 import java.util.LinkedHashSet;
 import java.util.Set;
