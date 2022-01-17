@@ -1,5 +1,6 @@
 package org.beable.common.ioc;
 
+import org.beable.common.beans.factory.annotation.Value;
 import org.beable.common.stereotype.Component;
 
 import java.util.HashMap;
@@ -9,9 +10,10 @@ import java.util.Map;
 public class UserDao implements IUserDao{
     private static Map<String, String> hashMap = new HashMap<>();
 
-
+    @Value("${company}")
     private String company;
 
+    @Value("${location}")
     private String location;
 
     public String queryUserName(String uId) {
