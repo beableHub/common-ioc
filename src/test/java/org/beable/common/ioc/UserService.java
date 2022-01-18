@@ -1,53 +1,21 @@
 package org.beable.common.ioc;
 
-import org.beable.common.beans.factory.DisposableBean;
-import org.beable.common.beans.factory.InitializingBean;
-import org.beable.common.beans.factory.annotation.Autowired;
-import org.beable.common.beans.factory.annotation.Value;
-import org.beable.common.stereotype.Component;
-
 /**
- *
  * @author wuqing
  * @version 1.0
  * @date 2021/12/22
  */
-@Component
-public class UserService implements InitializingBean, DisposableBean {
 
-    @Autowired
-    private IUserDao userDao;
+public interface UserService {
 
-    @Value("${host}")
-    private String host;
 
-    public void setHost(String host) {
-        this.host = host;
-    }
+    void queryUserInfo(String userId);
 
-    public String getHost() {
-        return host;
-    }
+    void queryCompany(String userId);
 
-    public void queryUserInfo(String userId){
-        System.out.println("查询用户信息:"+userDao.queryUserName(userId));
-    }
+    void queryLocation(String userId);
 
-    public void queryCompany(String userId){
-        System.out.println("查询用户公司信息:"+userDao.queryCompany());
-    }
+    String queryHost();
 
-    public void queryLocation(String userId){
-        System.out.println("查询用户所在城市信息:"+userDao.queryLocation());
-    }
-
-    @Override
-    public void destroy() throws Exception {
-        System.out.println("执行：UserService.destroy");
-    }
-
-    @Override
-    public void afterPropertiesSet() throws Exception {
-        System.out.println("执行：UserService.afterPropertiesSet");
-    }
+    String getHost();
 }

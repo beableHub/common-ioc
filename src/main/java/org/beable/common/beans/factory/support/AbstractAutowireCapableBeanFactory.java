@@ -26,38 +26,61 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
 
     @Override
     protected Object createBean(String beanName, BeanDefinition beanDefinition,Object[] args) throws BeansException {
+        // 判断是否返回代理Bean对象
+        Object bean = resolveBeforeInstantiation(beanName,beanDefinition);
+        if (null != bean){
+            return bean;
+        }
+        return doCreateBean(beanName,beanDefinition,args);
+    }
+
+
+    protected Object doCreateBean(String beanName, BeanDefinition beanDefinition,Object[] args){
         Object bean = null;
         try {
-            // 判断是否返回代理Bean对象
-            bean = resolveBeforeInstantiation(beanName,beanDefinition);
-            if (null != bean){
-                return bean;
-            }
             // 实例化
-            bean = createBeanInstance(beanDefinition,beanName,args);
+            bean = createBeanInstance(beanDefinition, beanName, args);
+            // 处理循环依赖，将实例化后的Bean对象提前放入缓存中暴露出来
+            if (beanDefinition.isSingleton()) {
+                Object finalBean = bean;
+                addSingletonFactory(beanName, () -> getEarlyBeanReference(beanName, finalBean));
+            }
             // 实例化后判断
-            boolean continueWithPropertyPopulation = applyBeanPostProcessorsAfterInstantiation(beanName,bean);
-            if (!continueWithPropertyPopulation){
+            boolean continueWithPropertyPopulation = applyBeanPostProcessorsAfterInstantiation(beanName, bean);
+            if (!continueWithPropertyPopulation) {
                 return bean;
             }
-
             // 在设置bean属性之前，允许BeanPostProcessor修改属性值
             applyBeanPostProcessorsBeforeApplyingPropertyValues(beanName, bean, beanDefinition);
-
             // 填充属性
-            applyPropertyValues(beanName,bean,beanDefinition);
+            applyPropertyValues(beanName, bean, beanDefinition);
             // 执行Bean的初始化方法和BeanPostProcessor的前置和后置处理方法
-            bean = initializeBean(bean,beanName,beanDefinition);
-        } catch (Exception e) {
+            bean = initializeBean(bean, beanName, beanDefinition);
+        }catch (Exception e){
             throw new BeansException("Instantiation of bean failed", e);
         }
-
-        registerDisposableBeanIfNecessary(beanName,bean,beanDefinition);
+        registerDisposableBeanIfNecessary(beanName, bean, beanDefinition);
+        Object exposedObject = bean;
         if (beanDefinition.isSingleton()) {
-            addSingleton(beanName, bean);
+            exposedObject = getSingleton(beanName);
+            registerSingleton(beanName,exposedObject);
         }
-        return bean;
+        return exposedObject;
     }
+
+    private Object getEarlyBeanReference(String beanName, Object bean) {
+        Object exposedObject = bean;
+        for (BeanPostProcessor beanPostProcessor : getBeanPostProcessors()){
+            if (beanPostProcessor instanceof InstantiationAwareBeanPostProcessor){
+                exposedObject = ((InstantiationAwareBeanPostProcessor)beanPostProcessor).getEarlyBeanReference(bean,beanName);
+                if (exposedObject != null){
+                    return exposedObject;
+                }
+            }
+        }
+        return exposedObject;
+    }
+
 
     /**
      * Bean 实例化后对于返回 false 的对象，不在执行后续设置 Bean 对象属性的操作

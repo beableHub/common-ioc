@@ -1,6 +1,7 @@
 package org.beable.common.beans.factory.support;
 
 import org.beable.common.beans.factory.DisposableBean;
+import org.beable.common.beans.factory.ObjectFactory;
 import org.beable.common.beans.factory.config.SingletonBeanRegistry;
 
 import java.util.HashMap;
@@ -18,13 +19,42 @@ public class DefaultSingletonBeanRegistry implements SingletonBeanRegistry {
 
     protected static final Object NULL_OBJECT = new Object();
 
+    /**
+     * 一级缓存 普通对象
+     */
     private final Map<String,Object> singletonObjects = new HashMap<>();
+
+    /**
+     * 二级缓存，提前暴露对象，没有完全实例化对象
+     */
+    private final Map<String,Object> earlySingletonObjects = new HashMap<>();
+
+    /**
+     * 三级缓存，存放代理对象
+     */
+    private final Map<String, ObjectFactory<?>> singletonFactories = new HashMap<>();
 
     private final Map<String,Object> disposableBeans = new LinkedHashMap<>();
 
     @Override
     public Object getSingleton(String beanName) {
-        return singletonObjects.get(beanName);
+        synchronized (this.singletonObjects) {
+            Object singleObject = singletonObjects.get(beanName);
+            if (null == singleObject) {
+                singleObject = earlySingletonObjects.get(beanName);
+                // 判断二级缓存里面是否有对象
+                if (null == singleObject) {
+                    ObjectFactory objectFactory = singletonFactories.get(beanName);
+                    if (objectFactory != null) {
+                        singleObject = objectFactory.getObject();
+                        // 把三级缓存里面的代理对象里面的真实对象取出，放入二级缓存中
+                        earlySingletonObjects.put(beanName, singleObject);
+                        singletonFactories.remove(beanName);
+                    }
+                }
+            }
+            return singleObject;
+        }
     }
 
     @Override
@@ -40,7 +70,21 @@ public class DefaultSingletonBeanRegistry implements SingletonBeanRegistry {
     }
 
     protected void addSingleton(String beanName,Object singletonObject){
-        this.singletonObjects.put(beanName,singletonObject);
+        synchronized (this.singletonObjects) {
+            this.singletonObjects.put(beanName, singletonObject);
+            this.singletonFactories.remove(beanName);
+            this.earlySingletonObjects.remove(beanName);
+        }
+    }
+
+    protected void addSingletonFactory(String beanName, ObjectFactory singletonFactory){
+        synchronized (this.singletonObjects){
+            if (!this.singletonObjects.containsKey(beanName)){
+                this.singletonFactories.put(beanName,singletonFactory);
+                this.earlySingletonObjects.remove(beanName);
+                this.singletonObjects.remove(beanName);
+            }
+        }
     }
 
 
@@ -73,7 +117,9 @@ public class DefaultSingletonBeanRegistry implements SingletonBeanRegistry {
 
     protected void removeSingleton(String beanName) {
         synchronized (this.singletonObjects){
-            singletonObjects.remove(beanName);
+            this.singletonObjects.remove(beanName);
+            this.earlySingletonObjects.remove(beanName);
+            this.singletonFactories.remove(beanName);
         }
     }
 

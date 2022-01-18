@@ -17,7 +17,7 @@
     </bean>
 
     <bean id="pointcutAdvisor" class="org.beable.common.aop.aspectj.AspectJExpressionPointcutAdvisor">
-        <property name="expression" value="execution(* org.beable.common.ioc.IUserDao.*(..))"/>
+        <property name="expression" value="execution(* org.beable.common.ioc.ClassService.*(..))"/>
         <property name="advice" ref="methodInterceptor"/>
     </bean>
 

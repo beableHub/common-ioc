@@ -233,7 +233,7 @@ public class IocTest {
         ClassPathXmlApplicationContext applicationContext = new ClassPathXmlApplicationContext("classpath:application-context.xml");
 
         UserService userService = applicationContext.getBean("userService",UserService.class);
-        System.out.println("host:"+userService.getHost());
+        System.out.println("host:"+userService.queryHost());
         userService.queryLocation("test");
         userService.queryCompany("test");
     }
@@ -244,7 +244,7 @@ public class IocTest {
         UserService userService = applicationContext.getBean("userService", UserService.class);
         userService.queryLocation("test");
         userService.queryCompany("test");
-        System.out.println("host：" + userService.getHost());
+        System.out.println("host：" + userService.queryHost());
     }
 
 
@@ -254,6 +254,13 @@ public class IocTest {
         UserService userService = applicationContext.getBean("userService", UserService.class);
         userService.queryLocation("test");
         userService.queryCompany("test");
-        System.out.println("host：" + userService.getHost());
+        System.out.println("host：" + userService.queryHost());
+    }
+
+    @Test
+    public void test_circular(){
+        ClassPathXmlApplicationContext applicationContext = new ClassPathXmlApplicationContext("classpath:application-context.xml");
+        UserService userService = applicationContext.getBean("userServiceImpl", UserService.class);
+        userService.queryHost();
     }
 }
