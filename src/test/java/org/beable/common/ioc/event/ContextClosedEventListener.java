@@ -1,7 +1,7 @@
 package org.beable.common.ioc.event;
 
-import org.beable.common.context.event.ApplicationListener;
-import org.beable.common.context.event.ContextClosedEvent;
+import org.beable.common.ioc.context.event.ApplicationListener;
+import org.beable.common.ioc.context.event.ContextClosedEvent;
 
 public class ContextClosedEventListener implements ApplicationListener<ContextClosedEvent> {
     @Override

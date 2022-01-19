@@ -1,8 +1,7 @@
 package org.beable.common.ioc.bean;
 
-import org.beable.common.beans.factory.FactoryBean;
+import org.beable.common.ioc.beans.factory.FactoryBean;
 import org.beable.common.ioc.IUserDao;
-import org.beable.common.ioc.UserDao;
 
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Proxy;

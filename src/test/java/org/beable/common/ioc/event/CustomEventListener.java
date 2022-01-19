@@ -1,6 +1,6 @@
 package org.beable.common.ioc.event;
 
-import org.beable.common.context.event.ApplicationListener;
+import org.beable.common.ioc.context.event.ApplicationListener;
 
 import java.util.Date;
 

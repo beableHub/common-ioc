@@ -8,20 +8,20 @@
 
     <context:component-scan base-package="org.beable.common.ioc"/>
 
-    <bean class="org.beable.common.aop.framework.autoproxy.DefaultAdvisorAutoProxyCreator"/>
+    <bean class="org.beable.common.ioc.aop.framework.autoproxy.DefaultAdvisorAutoProxyCreator"/>
 
     <bean id="beforeAdvice" class="org.beable.common.ioc.advice.UserDaoBeforeAdvice"/>
 
-    <bean id="methodInterceptor" class="org.beable.common.aop.framework.adapter.MethodBeforeAdviceInterceptor">
+    <bean id="methodInterceptor" class="org.beable.common.ioc.aop.framework.adapter.MethodBeforeAdviceInterceptor">
         <property name="advice" ref="beforeAdvice"/>
     </bean>
 
-    <bean id="pointcutAdvisor" class="org.beable.common.aop.aspectj.AspectJExpressionPointcutAdvisor">
+    <bean id="pointcutAdvisor" class="org.beable.common.ioc.aop.aspectj.AspectJExpressionPointcutAdvisor">
         <property name="expression" value="execution(* org.beable.common.ioc.ClassService.*(..))"/>
         <property name="advice" ref="methodInterceptor"/>
     </bean>
 
-    <bean class="org.beable.common.beans.factory.PropertyPlaceholderConfigurer">
+    <bean class="org.beable.common.ioc.beans.factory.PropertyPlaceholderConfigurer">
         <property name="location" value="classpath:application.properties"/>
     </bean>
 </beans>

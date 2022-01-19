@@ -1,6 +1,6 @@
 package org.beable.common.ioc.advice;
 
-import org.beable.common.aop.MethodBeforeAdvice;
+import org.beable.common.ioc.aop.MethodBeforeAdvice;
 
 import java.lang.reflect.Method;
 

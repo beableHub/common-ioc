@@ -1,11 +1,11 @@
 package org.beable.common.ioc.config;
 
-import org.beable.common.beans.BeansException;
-import org.beable.common.beans.PropertyValue;
-import org.beable.common.beans.PropertyValues;
-import org.beable.common.beans.factory.config.BeanDefinition;
-import org.beable.common.beans.factory.config.BeanFactoryPostProcessor;
-import org.beable.common.beans.factory.config.ConfigurableListableBeanFactory;
+import org.beable.common.ioc.beans.BeansException;
+import org.beable.common.ioc.beans.PropertyValue;
+import org.beable.common.ioc.beans.PropertyValues;
+import org.beable.common.ioc.beans.factory.config.BeanDefinition;
+import org.beable.common.ioc.beans.factory.config.BeanFactoryPostProcessor;
+import org.beable.common.ioc.beans.factory.config.ConfigurableListableBeanFactory;
 
 public class MyBeanFactoryPostProcessor implements BeanFactoryPostProcessor {
     @Override

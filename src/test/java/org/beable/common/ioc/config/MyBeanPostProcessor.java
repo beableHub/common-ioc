@@ -1,8 +1,8 @@
 package org.beable.common.ioc.config;
 
-import org.beable.common.beans.BeansException;
-import org.beable.common.beans.factory.config.BeanPostProcessor;
 import org.beable.common.ioc.UserDao;
+import org.beable.common.ioc.beans.BeansException;
+import org.beable.common.ioc.beans.factory.config.BeanPostProcessor;
 
 import java.util.Objects;
 

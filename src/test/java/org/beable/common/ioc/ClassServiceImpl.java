@@ -1,8 +1,8 @@
 package org.beable.common.ioc;
 
-import org.beable.common.beans.factory.annotation.Autowired;
-import org.beable.common.beans.factory.annotation.Value;
-import org.beable.common.stereotype.Component;
+import org.beable.common.ioc.beans.factory.annotation.Autowired;
+import org.beable.common.ioc.beans.factory.annotation.Value;
+import org.beable.common.ioc.stereotype.Component;
 
 @Component
 public class ClassServiceImpl implements ClassService{

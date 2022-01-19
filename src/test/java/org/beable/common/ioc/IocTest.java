@@ -1,19 +1,19 @@
 package org.beable.common.ioc;
 
-import org.beable.common.aop.AdvisedSupport;
-import org.beable.common.aop.TargetSource;
-import org.beable.common.aop.aspectj.AspectJExpressionPointcut;
-import org.beable.common.aop.framework.JdkDynamicAopProxy;
-import org.beable.common.beans.PropertyValue;
-import org.beable.common.beans.PropertyValues;
-import org.beable.common.beans.factory.config.BeanDefinition;
-import org.beable.common.beans.factory.config.BeanReference;
-import org.beable.common.beans.factory.support.BeanDefinitionReader;
-import org.beable.common.beans.factory.support.DefaultListableBeanFactory;
-import org.beable.common.beans.factory.xml.XmlBeanDefinitionReader;
-import org.beable.common.context.support.ClassPathXmlApplicationContext;
-import org.beable.common.ioc.event.CustomEvent;
+import org.beable.common.ioc.aop.AdvisedSupport;
+import org.beable.common.ioc.aop.TargetSource;
+import org.beable.common.ioc.aop.aspectj.AspectJExpressionPointcut;
+import org.beable.common.ioc.aop.framework.JdkDynamicAopProxy;
+import org.beable.common.ioc.beans.PropertyValue;
+import org.beable.common.ioc.beans.PropertyValues;
+import org.beable.common.ioc.beans.factory.config.BeanDefinition;
+import org.beable.common.ioc.beans.factory.config.BeanReference;
+import org.beable.common.ioc.beans.factory.support.BeanDefinitionReader;
+import org.beable.common.ioc.beans.factory.support.DefaultListableBeanFactory;
+import org.beable.common.ioc.beans.factory.xml.XmlBeanDefinitionReader;
+import org.beable.common.ioc.context.support.ClassPathXmlApplicationContext;
 import org.beable.common.ioc.interceptor.UserDaoInterceptor;
+import org.beable.common.ioc.event.CustomEvent;
 import org.junit.Test;
 
 /**

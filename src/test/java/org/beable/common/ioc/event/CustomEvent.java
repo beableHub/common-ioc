@@ -1,7 +1,6 @@
 package org.beable.common.ioc.event;
 
-import org.beable.common.context.ApplicationEvent;
-import org.beable.common.context.event.ApplicationContextEvent;
+import org.beable.common.ioc.context.event.ApplicationContextEvent;
 
 public class CustomEvent extends ApplicationContextEvent {
 
