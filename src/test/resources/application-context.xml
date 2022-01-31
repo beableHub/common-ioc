@@ -6,22 +6,22 @@
 	         http://www.springframework.org/schema/beans/spring-beans.xsd
 		 http://www.springframework.org/schema/context">
 
-    <context:component-scan base-package="org.beable.common.ioc"/>
+    <context:component-scan base-package="org.beable.springframework"/>
 
-    <bean class="org.beable.common.ioc.aop.framework.autoproxy.DefaultAdvisorAutoProxyCreator"/>
+    <bean class="org.beable.springframework.aop.framework.autoproxy.DefaultAdvisorAutoProxyCreator"/>
 
-    <bean id="beforeAdvice" class="org.beable.common.ioc.advice.UserDaoBeforeAdvice"/>
+    <bean id="beforeAdvice" class="org.beable.springframework.advice.UserDaoBeforeAdvice"/>
 
-    <bean id="methodInterceptor" class="org.beable.common.ioc.aop.framework.adapter.MethodBeforeAdviceInterceptor">
+    <bean id="methodInterceptor" class="org.beable.springframework.aop.framework.adapter.MethodBeforeAdviceInterceptor">
         <property name="advice" ref="beforeAdvice"/>
     </bean>
 
-    <bean id="pointcutAdvisor" class="org.beable.common.ioc.aop.aspectj.AspectJExpressionPointcutAdvisor">
-        <property name="expression" value="execution(* org.beable.common.ioc.ClassService.*(..))"/>
+    <bean id="pointcutAdvisor" class="org.beable.springframework.aop.aspectj.AspectJExpressionPointcutAdvisor">
+        <property name="expression" value="execution(* org.beable.springframework.ClassService.*(..))"/>
         <property name="advice" ref="methodInterceptor"/>
     </bean>
 
-    <bean class="org.beable.common.ioc.beans.factory.PropertyPlaceholderConfigurer">
+    <bean class="org.beable.springframework.beans.factory.PropertyPlaceholderConfigurer">
         <property name="location" value="classpath:application.properties"/>
     </bean>
 </beans>
